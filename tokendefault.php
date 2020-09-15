@@ -170,3 +170,16 @@ function tokendefault_civicrm_themes(&$themes) {
 //  ));
 //  _tokendefault_civix_navigationMenu($menu);
 //}
+
+/**
+ * Implements hook_civicrm__tokenValues().
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_tokenValues
+ */
+function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokens = [], $context = null) {
+  foreach ($cids as $cid) {
+    // Add default value of first_name if its empty
+    if (in_array('first_name', $tokens['contact']) && empty($values[$cid]['first_name'])) {
+      $values[$cid]['first_name'] = 'Friend';
+    }
+  }
+}

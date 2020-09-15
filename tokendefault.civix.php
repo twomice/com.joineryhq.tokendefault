@@ -473,5 +473,11 @@ function _tokendefault_civix_civicrm_alterSettingsFolders(&$metaDataFolders = NU
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
  */
 function _tokendefault_civix_civicrm_entityTypes(&$entityTypes) {
-  $entityTypes = array_merge($entityTypes, []);
+  $entityTypes = array_merge($entityTypes, [
+    'CRM_Tokendefault_DAO_Tokendefaults' => [
+      'name' => 'Tokendefaults',
+      'class' => 'CRM_Tokendefault_DAO_Tokendefaults',
+      'table' => 'civicrm_tokendefaults',
+    ],
+  ]);
 }

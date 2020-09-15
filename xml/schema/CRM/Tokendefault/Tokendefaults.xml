@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Tokendefault</base>
+  <class>Tokendefaults</class>
+  <name>civicrm_tokendefaults</name>
+  <comment>FIXME</comment>
+  <log>true</log>
+  <field>
+    <name>id</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>Unique Tokendefaults ID</comment>
+  </field>
+  <primaryKey>
+    <name>id</name>
+    <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+    <name>token</name>
+    <type>varchar</type>
+    <length>255</length>
+  </field>
+  <field>
+    <name>default</name>
+    <type>varchar</type>
+    <length>255</length>
+  </field>
+</table>

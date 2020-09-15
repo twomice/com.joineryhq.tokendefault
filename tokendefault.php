@@ -177,9 +177,24 @@ function tokendefault_civicrm_themes(&$themes) {
  */
 function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokens = [], $context = null) {
   foreach ($cids as $cid) {
-    // Add default value of first_name if its empty
-    if (in_array('first_name', $tokens['contact']) && empty($values[$cid]['first_name'])) {
-      $values[$cid]['first_name'] = 'Friend';
+    foreach ($tokens as $token => $val) {
+      foreach ($val as $v) {
+        if (
+          $v === 'first_name'
+          || $v === 'last_name'
+          || $v === 'city'
+        ) {
+          if (empty($values[$cid][$v])) {
+            $tokenDefault = civicrm_api3('Tokendefaults', 'get', [
+              'sequential' => 1,
+              'token' => 'contact.' . $v,
+            ]);
+
+            $default = array_values($tokenDefault);
+            $values[$cid][$v] = $default[0]['default'];
+          }
+        }
+      }
     }
   }
 }

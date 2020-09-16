@@ -175,21 +175,21 @@ function tokendefault_civicrm_navigationMenu(&$menu) {
  */
 function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokens = [], $context = null) {
   foreach ($cids as $cid) {
-    foreach ($tokens as $token => $val) {
-      foreach ($val as $v) {
+    foreach ($tokens as $tokenKey => $token) {
+      foreach ($token as $val) {
         if (
-          $v === 'first_name'
-          || $v === 'last_name'
-          || $v === 'city'
+          $val === 'first_name'
+          || $val === 'last_name'
+          || $val === 'city'
         ) {
-          if (empty($values[$cid][$v])) {
+          if (empty($values[$cid][$val])) {
             $tokenDefault = civicrm_api3('Tokendefaults', 'get', [
               'sequential' => 1,
-              'token' => 'contact.' . $v,
+              'token' => 'contact.' . $val,
             ]);
 
             $default = array_values($tokenDefault);
-            $values[$cid][$v] = $default[0]['default'];
+            $values[$cid][$val] = $default[0]['default'];
           }
         }
       }

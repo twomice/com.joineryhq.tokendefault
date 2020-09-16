@@ -159,17 +159,15 @@ function tokendefault_civicrm_themes(&$themes) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_navigationMenu
  */
-//function tokendefault_civicrm_navigationMenu(&$menu) {
-//  _tokendefault_civix_insert_navigation_menu($menu, 'Mailings', array(
-//    'label' => E::ts('New subliminal message'),
-//    'name' => 'mailing_subliminal_message',
-//    'url' => 'civicrm/mailing/subliminal',
-//    'permission' => 'access CiviMail',
-//    'operator' => 'OR',
-//    'separator' => 0,
-//  ));
-//  _tokendefault_civix_navigationMenu($menu);
-//}
+function tokendefault_civicrm_navigationMenu(&$menu) {
+ _tokendefault_civix_insert_navigation_menu($menu, 'Administer/Customize Data and Screens', array(
+   'label' => ts('Token Defaults'),
+   'name' => 'Token Defaults',
+   'url' => 'civicrm/tokendefaults',
+   'permission' => 'access CiviCRM',
+ ));
+ _tokendefault_civix_navigationMenu($menu);
+}
 
 /**
  * Implements hook_civicrm__tokenValues().

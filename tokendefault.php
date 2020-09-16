@@ -177,19 +177,14 @@ function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokens 
   foreach ($cids as $cid) {
     foreach ($tokens as $tokenKey => $token) {
       foreach ($token as $val) {
-        if (
-          $val === 'first_name'
-          || $val === 'last_name'
-          || $val === 'city'
-        ) {
-          if (empty($values[$cid][$val])) {
-            $tokenDefault = civicrm_api3('Tokendefaults', 'get', [
-              'sequential' => 1,
-              'token' => 'contact.' . $val,
-            ]);
+        if (empty($values[$cid][$val])) {
+          $tokenDefaults = \Civi\Api4\Tokendefaults::get()->setLimit()->execute();
 
-            $default = array_values($tokenDefault);
-            $values[$cid][$val] = $default[0]['default'];
+          foreach ($tokenDefaults as $tokenDefault) {
+            $tokenVal = $tokenKey . '.' . $val;
+            if ($tokenVal == $tokenDefault['token']) {
+              $values[$cid][$val] = $tokenDefault['default'];
+            }
           }
         }
       }

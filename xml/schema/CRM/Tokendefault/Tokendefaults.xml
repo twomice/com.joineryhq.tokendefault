@@ -4,7 +4,7 @@
   <base>CRM/Tokendefault</base>
   <class>Tokendefaults</class>
   <name>civicrm_tokendefaults</name>
-  <comment>FIXME</comment>
+  <comment>Token Defaults</comment>
   <log>true</log>
   <field>
     <name>id</name>

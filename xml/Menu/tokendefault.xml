@@ -2,7 +2,7 @@
 <menu>
   <item>
     <path>civicrm/tokendefaults</path>
-    <page_callback>CRM_Tokendefault_Page_TokenDefaults</page_callback>
+    <page_callback>CRM_Tokendefault_Form_TokenDefaults</page_callback>
     <title>TokenDefaults</title>
     <access_arguments>access CiviCRM</access_arguments>
   </item>

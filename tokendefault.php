@@ -173,19 +173,20 @@ function tokendefault_civicrm_navigationMenu(&$menu) {
  * Implements hook_civicrm__tokenValues().
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_tokenValues
  */
-function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokens = [], $context = null) {
-  foreach ($cids as $cid) {
-    foreach ($tokens as $tokenKey => $token) {
-      foreach ($token as $val) {
-        if (empty($values[$cid][$val])) {
-          $tokenDefaults = \Civi\Api4\Tokendefaults::get()->setLimit()->execute();
+function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokenGroups = [], $context = null) {
+  $tokenDefaultsRows = \Civi\Api4\Tokendefaults::get()->setLimit()->execute();
+  $tokenDefaults = [];
 
-          foreach ($tokenDefaults as $tokenDefault) {
-            $tokenVal = $tokenKey . '.' . $val;
-            if ($tokenVal == $tokenDefault['token']) {
-              $values[$cid][$val] = $tokenDefault['default'];
-            }
-          }
+  foreach ($tokenDefaultsRows as $tokenDefaultRow) {
+    $tokenDefaults[$tokenDefaultRow['token']] = $tokenDefaultRow['default'];
+  }
+
+  foreach ($cids as $cid) {
+    foreach ($tokenGroups as $tokenGroupName => $tokenGroupTokens) {
+      foreach ($tokenGroupTokens as $tokenName) {
+        $token = $tokenGroupName . '.' . $tokenName;
+        if (empty($values[$cid][$tokenName])) {
+          $values[$cid][$tokenName] = $tokenDefaults[$token];
         }
       }
     }

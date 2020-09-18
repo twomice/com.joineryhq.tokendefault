@@ -26,6 +26,16 @@
                 <td><a href="#">delete</a></td>
               </tr>
             {/foreach}
+            <tr class="string-override-row">
+              <td>{$form.is_active[$tokenDefaultsCount].html}</td>
+              <td>
+               <div class="helpIcon" id="helphtml">
+                {$form.token[$tokenDefaultsCount].html}
+               </div>
+              </td>
+              <td>{$form.default[$tokenDefaultsCount].html}</td>
+              <td><a href="#">delete</a></td>
+            </tr>
           </tbody>
         </table>
         &nbsp;&nbsp;&nbsp;<a class="action-item crm-hover-button buildStringOverrideRow" href="#"><i class="crm-i fa-plus-circle" aria-hidden="true"></i> {ts}Add row{/ts}</a>

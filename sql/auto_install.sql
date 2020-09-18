@@ -43,7 +43,7 @@ SET FOREIGN_KEY_CHECKS=1;
 -- *
 -- * civicrm_tokendefaults
 -- *
--- * FIXME
+-- * Token Defaults
 -- *
 -- *******************************************************/
 CREATE TABLE `civicrm_tokendefaults` (
@@ -51,7 +51,8 @@ CREATE TABLE `civicrm_tokendefaults` (
 
      `id` int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Tokendefaults ID',
      `token` varchar(255)    ,
-     `default` varchar(255)     
+     `default` varchar(255)    ,
+     `is_active` tinyint     
 ,
         PRIMARY KEY (`id`)
  

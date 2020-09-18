@@ -11,19 +11,41 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
 
   public function buildQuickForm() {
     $tokens = $this->getTokens();
+    $tokenDefaultsCount = $this->getTokenDefaults()->rowCount;
 
-    foreach ($this->getTokenDefaults() as $tokenDefault) {
-      unset($tokens['{' . $tokenDefault['token'] . '}']);
+    if ($tokenDefaultsCount > 0) {
+      foreach ($this->getTokenDefaults() as $tokenDefault) {
+        // unset($tokens['{' . $tokenDefault['token'] . '}']);
 
-      $this->addElement('checkbox', 'is_active[' . $tokenDefault['id'] . ']');
-      $this->add('text', 'token[' . $tokenDefault['id'] . ']', NULL, [
-        'class' => 'crm-token-selector big',
-      ]);
-      $this->add('text', 'default[' . $tokenDefault['id'] . ']', NULL);
+        $this->addElement('checkbox', 'is_active[' . $tokenDefault['id'] . ']');
+        $this->add('text', 'token[' . $tokenDefault['id'] . ']', NULL, [
+          'class' => 'crm-token-selector big',
+        ]);
+        $this->add('text', 'default[' . $tokenDefault['id'] . ']', NULL);
+      }
     }
+
+    $this->addElement('checkbox', 'is_active[' . ($tokenDefaultsCount + 1) . ']');
+    $this->add('text', 'token[' . ($tokenDefaultsCount + 1) . ']', NULL, [
+      'class' => 'crm-token-selector big',
+    ]);
+    $this->add('text', 'default[' . ($tokenDefaultsCount + 1) . ']', NULL);
 
     $this->assign('tokens', CRM_Utils_Token::formatTokensForDisplay($tokens));
     $this->assign('tokenDefaults', $this->getTokenDefaults());
+    $this->assign('tokenDefaultsCount', $tokenDefaultsCount + 1);
+
+    $this->addButtons(array(
+      array(
+        'type' => 'submit',
+        'name' => E::ts('Submit'),
+        'isDefault' => TRUE,
+      ),
+      array(
+        'type' => 'cancel',
+        'name' => ts('Cancel'),
+      ),
+    ));
 
     parent::buildQuickForm();
   }
@@ -36,10 +58,12 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
   public function setDefaultValues() {
     $defaults = parent::setDefaultValues();
 
-    foreach ($this->getTokenDefaults() as $tokenDefault) {
-      $defaults['is_active[' . $tokenDefault['id'] . ']'] = TRUE;
-      $defaults['token[' . $tokenDefault['id'] . ']'] = $tokenDefault['token'];
-      $defaults['default[' . $tokenDefault['id'] . ']'] = $tokenDefault['default'];
+    if ($this->getTokenDefaults()->rowCount > 0) {
+      foreach ($this->getTokenDefaults() as $tokenDefault) {
+        $defaults['is_active[' . $tokenDefault['id'] . ']'] = TRUE;
+        $defaults['token[' . $tokenDefault['id'] . ']'] = $tokenDefault['token'];
+        $defaults['default[' . $tokenDefault['id'] . ']'] = $tokenDefault['default'];
+      }
     }
 
     return $defaults;

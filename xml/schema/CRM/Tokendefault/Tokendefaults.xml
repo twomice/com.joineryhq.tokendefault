@@ -26,4 +26,9 @@
     <type>varchar</type>
     <length>255</length>
   </field>
+  <field>
+    <name>is_active</name>
+    <type>tinyint</type>
+    <length>4</length>
+  </field>
 </table>

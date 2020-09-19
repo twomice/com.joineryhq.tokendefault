@@ -55,16 +55,6 @@
           data: form.data('tokens'),
           placeholder: '{/literal}{ts escape='js'}Tokens{/ts}{literal}'
         });
-
-      $('input.crm-token-selector', form).each(function(){
-        if ($(this).val()) {
-          var thisVal = $(this).val().split(".");
-          var select2Val = thisVal[1].toLowerCase().replace('_',' ').replace(/\b[a-z]/g, function(letter) {
-            return letter.toUpperCase();
-          });
-          $(this).prev().find('.select2-chosen').text(select2Val);
-        }
-      });
     });
   {/literal}
 </script>

@@ -79,10 +79,33 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
 
   public function postProcess() {
     $values = $this->exportValues();
-    $options = $this->getColorOptions();
+    $tokensDefaults = [];
+    // $results = \Civi\Api4\Tokendefaults::delete()
+    //             ->addWhere('id', 'IS NOT NULL')
+    //             ->execute();
+
+    foreach ($values as $key => $value) {
+      $keyID = substr($key, -1);
+      $keyElement = substr($key,  0, -2);
+
+      if (intval($keyID) && !empty($value)) {
+        $tokensDefaults[$keyID][$keyElement] = $value;
+      }
+    }
+
+    foreach ($tokensDefaults as $tokenDefault) {
+      $isActive = isset($tokenDefault['is_active']) ? $tokenDefault['is_active'] : 0;
+      $results = \Civi\Api4\Tokendefaults::create()
+                ->addValue('token', $tokenDefault['token'])
+                ->addValue('default', $tokenDefault['default'])
+                ->addValue('is_active', $isActive)
+                ->execute();
+    }
+
     CRM_Core_Session::setStatus(E::ts('You picked color "%1"', array(
-      1 => $options[$values['favorite_color']],
+      1 => json_encode($values),
     )));
+
     parent::postProcess();
   }
 

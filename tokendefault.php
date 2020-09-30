@@ -174,11 +174,14 @@ function tokendefault_civicrm_navigationMenu(&$menu) {
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_tokenValues
  */
 function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokenGroups = [], $context = null) {
-  $tokenDefaultsRows = \Civi\Api4\Tokendefaults::get()->setLimit()->execute();
+  $tokenDefaultsRows = \Civi\Api4\Tokendefaults::get()->execute();
   $tokenDefaults = [];
 
   foreach ($tokenDefaultsRows as $tokenDefaultRow) {
-    $tokenDefaults[$tokenDefaultRow['token']] = $tokenDefaultRow['default'];
+    if ($tokenDefaultRow['is_active']) {
+      $tokenToken = str_replace(array('{', '}'), '', $tokenDefaultRow['token']);
+      $tokenDefaults[$tokenToken] = $tokenDefaultRow['default'];
+    }
   }
 
   foreach ($cids as $cid) {

@@ -103,8 +103,13 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
 
     foreach($tokensDefaults as $tokenID => $tokenDefault) {
       if (!empty($tokenDefault['token']) && empty($tokenDefault['default'])) {
-        $errorField = "{$tokenDefault['default']}_{$tokenID}";
+        $errorField = "default_{$tokenID}";
         $errors[$errorField] = ts('Please enter a default value for this token');
+      }
+
+      if (empty($tokenDefault['token']) && !empty($tokenDefault['default'])) {
+        $errorField = "token_{$tokenID}";
+        $errors[$errorField] = ts('Please enter a token before adding a default value');
       }
     }
 

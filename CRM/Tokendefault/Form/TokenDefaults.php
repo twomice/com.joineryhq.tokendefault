@@ -16,29 +16,20 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
     $tokenDefNewArr = [];
 
     if ($tokenDefaultsCount > 0) {
-      foreach ($this->getTokenDefaults() as $tokenDefault) {
-        $this->addElement('checkbox', "active_{$tokenDefault['id']}");
-        $this->add('text', "token_{$tokenDefault['id']}", NULL, [
+      for ($i = 0; $i < $tokenDefaultsNextCount; $i++) {
+        $this->addElement('checkbox', "active_{$i}");
+        $this->add('text', "token_{$i}", NULL, [
           'class' => 'crm-token-selector big',
         ]);
-        $this->add('text', "default_{$tokenDefault['id']}", NULL);
+        $this->add('text', "default_{$i}", NULL);
 
-        $tokenDefNewArr[$tokenDefault['id']]['active'] = "active_{$tokenDefault['id']}";
-        $tokenDefNewArr[$tokenDefault['id']]['token'] = "token_{$tokenDefault['id']}";
-        $tokenDefNewArr[$tokenDefault['id']]['default'] = "default_{$tokenDefault['id']}";
+        $tokenDefNewArr[$i]['active'] = "active_{$i}";
+        $tokenDefNewArr[$i]['token'] = "token_{$i}";
+        $tokenDefNewArr[$i]['default'] = "default_{$i}";
       }
     }
 
-    $this->addElement('checkbox', "active_{$tokenDefaultsNextCount}");
-    $this->add('text', "token_{$tokenDefaultsNextCount}", NULL, [
-      'class' => 'crm-token-selector big',
-    ]);
-    $this->add('text', "default_{$tokenDefaultsNextCount}", NULL);
     $this->add('hidden', "token_row_count", NULL);
-    $tokenDefNewArr[$tokenDefaultsNextCount]['active'] = "active_{$tokenDefaultsNextCount}";
-    $tokenDefNewArr[$tokenDefaultsNextCount]['token'] = "token_{$tokenDefaultsNextCount}";
-    $tokenDefNewArr[$tokenDefaultsNextCount]['default'] = "default_{$tokenDefaultsNextCount}";
-
     $this->assign('tokens', CRM_Utils_Token::formatTokensForDisplay($tokens));
     $this->assign('tokenDefaults', $tokenDefNewArr);
 
@@ -54,6 +45,7 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
       ),
     ));
     $this->addFormRule(['CRM_Tokendefault_Form_TokenDefaults', 'formRule'], $this);
+
     parent::buildQuickForm();
   }
 
@@ -64,15 +56,17 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
    */
   public function setDefaultValues() {
     $defaults = parent::setDefaultValues();
+    $tokenDefaults = $this->getTokenDefaults();
+    $tokenDefaultsCount = $tokenDefaults->rowCount;
 
-    if ($this->getTokenDefaults()->rowCount > 0) {
-      foreach ($this->getTokenDefaults() as $tokenDefault) {
-        $defaults["active_{$tokenDefault['id']}"] = $tokenDefault['is_active'];
-        $defaults["token_{$tokenDefault['id']}"] = $tokenDefault['token'];
-        $defaults["default_{$tokenDefault['id']}"] = $tokenDefault['default'];
+    if ($tokenDefaultsCount > 0) {
+      for ($i = 0; $i < $tokenDefaultsCount; $i++) {
+        $defaults["active_{$i}"] = $tokenDefaults[$i]['is_active'];
+        $defaults["token_{$i}"] = $tokenDefaults[$i]['token'];
+        $defaults["default_{$i}"] = $tokenDefaults[$i]['default'];
       }
 
-      $defaults["token_row_count"] = $this->getTokenDefaults()->rowCount + 1;
+      $defaults["token_row_count"] = $tokenDefaultsCount + 1;
     }
 
     return $defaults;
@@ -89,27 +83,30 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
    */
   public function formRule($values) {
     $errors = [];
-    $tokensDefaults = [];
+    $tokens = [];
+    $tokenRowCount = $values['token_row_count'];
 
-    foreach ($values as $key => $value) {
-      $keyExplode = explode('_', $key);
-      $fieldID = end($keyExplode);
-      $fieldLabel = $keyExplode[0];
-
-      if (intval($fieldID)) {
-        $tokensDefaults[$fieldID][$fieldLabel] = $value;
-      }
-    }
-
-    foreach($tokensDefaults as $tokenID => $tokenDefault) {
-      if (!empty($tokenDefault['token']) && empty($tokenDefault['default'])) {
-        $errorField = "default_{$tokenID}";
+    for ($i = 0; $i < $tokenRowCount; $i++) {
+      if (!empty($values["token_{$i}"]) && empty($values["default_{$i}"])) {
+        $errorField = "default_{$i}";
         $errors[$errorField] = ts('Please enter a default value for this token');
       }
 
-      if (empty($tokenDefault['token']) && !empty($tokenDefault['default'])) {
-        $errorField = "token_{$tokenID}";
+      if (empty($values["token_{$i}"]) && !empty($values["default_{$i}"])) {
+        $errorField = "token_{$i}";
         $errors[$errorField] = ts('Please enter a token before adding a default value');
+      }
+
+      $tokens[$i] = $values["token_{$i}"];
+    }
+
+    $tokenValuesCount = count(array_unique($tokens));
+
+    if ($tokenRowCount != $tokenValuesCount) {
+      $duplicateValues = array_diff_assoc($tokens, array_unique($tokens));
+      foreach ($duplicateValues as $value) {
+        $duplicateField = array_search($value, $values);
+        $errors[$duplicateField] = ts('There is a duplicate on this token.');
       }
     }
 
@@ -121,28 +118,20 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
    */
   public function postProcess() {
     $values = $this->exportValues();
-    $tokensDefaults = [];
+    $tokenRowCount = $values['token_row_count'];
     $results = \Civi\Api4\Tokendefaults::delete()
                 ->addWhere('id', 'IS NOT NULL')
                 ->execute();
 
-    foreach ($values as $key => $value) {
-      $keyExplode = explode('_', $key);
-      $fieldID = end($keyExplode);
-      $fieldLabel = $keyExplode[0];
-
-      if (intval($fieldID) && !empty($value)) {
-        $tokensDefaults[$fieldID][$fieldLabel] = $value;
+    for ($i = 0; $i < $tokenRowCount; $i++) {
+      if (!empty($values["token_{$i}"])) {
+        $isActive = isset($values["active_{$i}"]) ? 1 : 0;
+        $results = \Civi\Api4\Tokendefaults::create()
+                  ->addValue('token', $values["token_{$i}"])
+                  ->addValue('default', $values["default_{$i}"])
+                  ->addValue('is_active', $isActive)
+                  ->execute();
       }
-    }
-
-    foreach ($tokensDefaults as $tokenID => $tokenDefault) {
-      $isActive = isset($tokenDefault['active']) ? $tokenDefault['active'] : 0;
-      $results = \Civi\Api4\Tokendefaults::create()
-                ->addValue('token', $tokenDefault['token'])
-                ->addValue('default', $tokenDefault['default'])
-                ->addValue('is_active', $isActive)
-                ->execute();
     }
 
     CRM_Core_Session::setStatus(E::ts('You picked color "%1"', array(
@@ -164,6 +153,10 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
   public function getTokenDefaults() {
     $tokenDefaults = \Civi\Api4\Tokendefaults::get()->execute();
     return $tokenDefaults;
+  }
+
+  public function checkTokenDuplicate($tokenArr, $token) {
+
   }
 
 }

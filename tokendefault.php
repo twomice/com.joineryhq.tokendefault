@@ -163,7 +163,7 @@ function tokendefault_civicrm_navigationMenu(&$menu) {
  _tokendefault_civix_insert_navigation_menu($menu, 'Administer/Customize Data and Screens', array(
    'label' => E::ts('Token Defaults'),
    'name' => 'Token Defaults',
-   'url' => 'civicrm/admin/tokendefaults/defaults',
+   'url' => 'civicrm/admin/tokendefaults/defaults?reset=1',
    'permission' => 'access CiviCRM',
  ));
  _tokendefault_civix_navigationMenu($menu);

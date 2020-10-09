@@ -1,0 +1,18 @@
+.tokendefaults-row:nth-child(odd) {
+  background-color: #FAFAFA;
+}
+.tokendefaults-row:nth-child(even) {
+  background-color: #EFEFEF;
+}
+.tokendefaults-row td {
+  border-color: #efefef;
+  border-right: 1px solid #efefef;
+  border-collapse: collapse;
+}
+.crm-container .helpIcon {
+  float: none;
+  margin-right: 0;
+}
+.crm-container .crm-form-block table {
+    width: 100%;
+}

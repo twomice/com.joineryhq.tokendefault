@@ -48,7 +48,9 @@
 
   {literal}
     CRM.$(function($) {
+      var newTokendefaultsField = $('.tokendefaults-row:last-child').html();
       var form = $('form.{/literal}{$form.formClass}{literal}');
+
       $('input.crm-token-selector', form)
         .addClass('crm-action-menu fa-code')
         .crmSelect2({
@@ -56,34 +58,28 @@
           placeholder: '{/literal}{ts escape='js'}Tokens{/ts}{literal}'
         });
 
-      var newTokendefaultsField = $('.tokendefaults-row:last-child').html();
       $('.add-tokendefaults').click(function(e){
         e.preventDefault();
-
         var tokenRowCount = $('input[name="token_row_count"]').val();
-        var tokenRowCountPlus = parseInt(tokenRowCount) + 1;
+        var tokenRowCountVal = parseInt(tokenRowCount);
 
         $('.tokendefaults-body').append('<tr class="tokendefaults-row">' + newTokendefaultsField +'</tr>');
         var $addedElements = $('.tokendefaults-row:last-child');
 
-        $addedElements.find('td:first-child input').removeAttr('name').removeAttr('id').attr('id','is_active_' + tokenRowCountPlus).attr('name','is_active_' + tokenRowCountPlus);
-        $addedElements.find('td:nth-child(2) input').removeAttr('name').removeAttr('id').attr('id','token_' + tokenRowCountPlus).attr('name','token_' + tokenRowCountPlus);
-        $addedElements.find('td:nth-child(3) input').removeAttr('name').removeAttr('id').attr('id','default_' + tokenRowCountPlus).attr('name','default_' + tokenRowCountPlus);
+        $addedElements.find('td:first-child input').removeAttr('name').removeAttr('id').attr('id','active_' + tokenRowCountVal).attr('name','active_' + tokenRowCountVal);
+        $addedElements.find('td:nth-child(2) input').removeAttr('name').removeAttr('id').attr('id','token_' + tokenRowCountVal).attr('name','token_' + tokenRowCountVal);
+        $addedElements.find('td:nth-child(3) input').removeAttr('name').removeAttr('id').attr('id','default_' + tokenRowCountVal).attr('name','default_' + tokenRowCountVal);
         $addedElements.find('.crm-token-selector').crmSelect2({
           data: form.data('tokens'),
           placeholder: '{/literal}{ts escape='js'}Tokens{/ts}{literal}'
         });
 
-        $('input[name="token_row_count"]').val(tokenRowCountPlus);
+        $('input[name="token_row_count"]').val(tokenRowCountVal + 1);
       });
 
       $('.tokendefaults-table').on('click','.delete-tokendefaults', function(e){
         e.preventDefault();
         $(this).parents('.tokendefaults-row').remove();
-      });
-
-      $('#TokenDefaults').submit(function(){
-        $('input[name="token_row_count"]').val($('.tokendefaults-row').length);
       });
     });
   {/literal}

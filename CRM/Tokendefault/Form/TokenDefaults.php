@@ -97,7 +97,9 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
         $errors[$errorField] = ts('Please enter a token before adding a default value');
       }
 
-      $tokens[$i] = $values["token_{$i}"];
+      if (!empty($values["token_{$i}"])) {
+        $tokens[$i] = $values["token_{$i}"];
+      }
     }
 
     $tokenValuesCount = count(array_unique($tokens));
@@ -117,7 +119,7 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
    * Process the form submission.
    */
   public function postProcess() {
-    $values = $this->exportValues();
+    $values = $this->getSubmitValues();
     $tokenRowCount = $values['token_row_count'];
     $results = \Civi\Api4\Tokendefaults::delete()
                 ->addWhere('id', 'IS NOT NULL')
@@ -125,7 +127,7 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
 
     for ($i = 0; $i < $tokenRowCount; $i++) {
       if (!empty($values["token_{$i}"])) {
-        $isActive = isset($values["active_{$i}"]) ? 1 : 0;
+        $isActive = !empty($values["active_{$i}"]) ? 1 : 0;
         $results = \Civi\Api4\Tokendefaults::create()
                   ->addValue('token', $values["token_{$i}"])
                   ->addValue('default', $values["default_{$i}"])
@@ -134,9 +136,7 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
       }
     }
 
-    CRM_Core_Session::setStatus(E::ts('You picked color "%1"', array(
-      1 => json_encode($values),
-    )));
+    CRM_Core_Session::setStatus(E::ts('Defaults saved'), E::ts('Token Defaults'), 'success');
 
     CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/admin/tokendefaults/defaults',
       "reset=1"

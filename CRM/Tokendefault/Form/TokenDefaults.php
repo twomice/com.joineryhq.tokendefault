@@ -41,7 +41,7 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
       ),
       array(
         'type' => 'cancel',
-        'name' => ts('Cancel'),
+        'name' => E::ts('Cancel'),
       ),
     ));
     $this->addFormRule(['CRM_Tokendefault_Form_TokenDefaults', 'formRule'], $this);
@@ -89,12 +89,12 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
     for ($i = 0; $i < $tokenRowCount; $i++) {
       if (!empty($values["token_{$i}"]) && empty($values["default_{$i}"])) {
         $errorField = "default_{$i}";
-        $errors[$errorField] = ts('Please enter a default value for this token');
+        $errors[$errorField] = E::ts('Please enter a default value for this token');
       }
 
       if (empty($values["token_{$i}"]) && !empty($values["default_{$i}"])) {
         $errorField = "token_{$i}";
-        $errors[$errorField] = ts('Please enter a token before adding a default value');
+        $errors[$errorField] = E::ts('Please enter a token before adding a default value');
       }
 
       if (!empty($values["token_{$i}"])) {
@@ -108,7 +108,7 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
       $duplicateValues = array_diff_assoc($tokens, array_unique($tokens));
       foreach ($duplicateValues as $value) {
         $duplicateField = array_search($value, $values);
-        $errors[$duplicateField] = ts('There is a duplicate on this token.');
+        $errors[$duplicateField] = E::ts('There is a duplicate on this token.');
       }
     }
 
@@ -154,9 +154,4 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
     $tokenDefaults = \Civi\Api4\Tokendefaults::get()->execute();
     return $tokenDefaults;
   }
-
-  public function checkTokenDuplicate($tokenArr, $token) {
-
-  }
-
 }

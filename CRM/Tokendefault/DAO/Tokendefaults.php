@@ -62,7 +62,7 @@ class CRM_Tokendefault_DAO_Tokendefaults extends CRM_Core_DAO {
    * Returns localized title of this entity.
    */
   public static function getEntityTitle() {
-    return ts('Tokendefaultses');
+    return E::ts('Tokendefaultses');
   }
 
   /**

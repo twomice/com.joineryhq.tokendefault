@@ -48,6 +48,7 @@
 
   {literal}
     CRM.$(function($) {
+      $('.tokendefaults-row:last-child .crm-form-checkbox').prop( "checked", true );
       var newTokendefaultsField = $('.tokendefaults-row:last-child').html();
       var form = $('form.{/literal}{$form.formClass}{literal}');
 
@@ -58,6 +59,7 @@
           placeholder: '{/literal}{ts escape='js'}Tokens{/ts}{literal}'
         });
 
+
       $('.add-tokendefaults').click(function(e){
         e.preventDefault();
         var tokenRowCount = $('input[name="token_row_count"]').val();
@@ -66,7 +68,7 @@
         $('.tokendefaults-body').append('<tr class="tokendefaults-row">' + newTokendefaultsField +'</tr>');
         var $addedElements = $('.tokendefaults-row:last-child');
 
-        $addedElements.find('td:first-child input').removeAttr('name').removeAttr('id').attr('id','active_' + tokenRowCountVal).attr('name','active_' + tokenRowCountVal);
+        $addedElements.find('td:first-child input').removeAttr('name').removeAttr('id').attr('id','active_' + tokenRowCountVal).attr('name','active_' + tokenRowCountVal).prop( "checked", true );
         $addedElements.find('td:nth-child(2) input').removeAttr('name').removeAttr('id').attr('id','token_' + tokenRowCountVal).attr('name','token_' + tokenRowCountVal);
         $addedElements.find('td:nth-child(3) input').removeAttr('name').removeAttr('id').attr('id','default_' + tokenRowCountVal).attr('name','default_' + tokenRowCountVal);
         $addedElements.find('.crm-token-selector').crmSelect2({

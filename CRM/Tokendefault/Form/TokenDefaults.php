@@ -69,6 +69,7 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
       }
 
       $defaults["token_row_count"] = $tokenDefaultsCount + 1;
+      $defaults["active_{$tokenDefaultsCount}"] = 1;
     }
 
     return $defaults;

@@ -48,7 +48,6 @@
 
   {literal}
     CRM.$(function($) {
-      $('.tokendefaults-row:last-child .crm-form-checkbox').prop( "checked", true );
       var newTokendefaultsField = $('.tokendefaults-row:last-child').html();
       var form = $('form.{/literal}{$form.formClass}{literal}');
 

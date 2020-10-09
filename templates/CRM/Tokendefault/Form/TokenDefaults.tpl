@@ -70,7 +70,9 @@
         $addedElements.find('td:first-child input').removeAttr('name').removeAttr('id').attr('id','active_' + tokenRowCountVal).attr('name','active_' + tokenRowCountVal).prop( "checked", true );
         $addedElements.find('td:nth-child(2) input').removeAttr('name').removeAttr('id').attr('id','token_' + tokenRowCountVal).attr('name','token_' + tokenRowCountVal);
         $addedElements.find('td:nth-child(3) input').removeAttr('name').removeAttr('id').attr('id','default_' + tokenRowCountVal).attr('name','default_' + tokenRowCountVal);
-        $addedElements.find('.crm-token-selector').crmSelect2({
+        $addedElements.find('.crm-token-selector')
+          .addClass('crm-action-menu fa-code')
+          .crmSelect2({
           data: form.data('tokens'),
           placeholder: '{/literal}{ts escape='js'}Tokens{/ts}{literal}'
         });

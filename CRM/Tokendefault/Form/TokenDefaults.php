@@ -45,7 +45,6 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
       ),
     ));
 
-    CRM_Core_Resources::singleton()->addStyleFile('com.joineryhq.tokendefault', 'css/tokendefaults.css');
     $this->addFormRule(['CRM_Tokendefault_Form_TokenDefaults', 'formRule'], $this);
 
     parent::buildQuickForm();

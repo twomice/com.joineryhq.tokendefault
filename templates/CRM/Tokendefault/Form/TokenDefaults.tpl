@@ -19,14 +19,12 @@
               {assign var='token' value=$tokenDefault.token}
               {assign var='default' value=$tokenDefault.default}
 
-              <tr class="tokendefaults-row">
+              <tr class="tokendefaults-row {cycle values="odd-row,even-row"}">
                 <td>
                   {$form.$active.html}
                 </td>
                 <td>
-                 <div class="helpIcon" id="helphtml">
                   {$form.$token.html}
-                 </div>
                 </td>
                 <td>{$form.$default.html}</td>
                 <td><a class="delete-tokendefaults" href="#">delete</a></td>

@@ -31,4 +31,15 @@
     <type>tinyint</type>
     <length>4</length>
   </field>
+  <field>
+    <name>set_id</name>
+    <type>int unsigned</type>
+    <comment>FK to Tokendefaults Set</comment>
+  </field>
+  <foreignKey>
+    <name>set_id</name>
+    <table>civicrm_tokendefaults_set</table>
+    <key>id</key>
+    <onDelete>CASCADE</onDelete>
+  </foreignKey>
 </table>

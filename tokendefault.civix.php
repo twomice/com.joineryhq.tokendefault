@@ -479,5 +479,10 @@ function _tokendefault_civix_civicrm_entityTypes(&$entityTypes) {
       'class' => 'CRM_Tokendefault_DAO_Tokendefaults',
       'table' => 'civicrm_tokendefaults',
     ],
+    'CRM_Tokendefault_DAO_TokendefaultsSet' => [
+      'name' => 'TokendefaultsSet',
+      'class' => 'CRM_Tokendefault_DAO_TokendefaultsSet',
+      'table' => 'civicrm_tokendefaults_set',
+    ],
   ]);
 }

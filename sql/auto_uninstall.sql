@@ -18,5 +18,6 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS `civicrm_tokendefaults`;
+DROP TABLE IF EXISTS `civicrm_tokendefaults_set`;
 
 SET FOREIGN_KEY_CHECKS=1;

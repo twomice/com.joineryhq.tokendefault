@@ -31,6 +31,7 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS `civicrm_tokendefaults`;
+DROP TABLE IF EXISTS `civicrm_tokendefaults_set`;
 
 SET FOREIGN_KEY_CHECKS=1;
 -- /*******************************************************
@@ -38,6 +39,25 @@ SET FOREIGN_KEY_CHECKS=1;
 -- * Create new tables
 -- *
 -- *******************************************************/
+
+-- /*******************************************************
+-- *
+-- * civicrm_tokendefaults_set
+-- *
+-- * Token Defaults Set
+-- *
+-- *******************************************************/
+CREATE TABLE `civicrm_tokendefaults_set` (
+
+
+     `id` int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique TokendefaultsSet ID',
+     `title` varchar(255)     
+,
+        PRIMARY KEY (`id`)
+ 
+ 
+ 
+)    ;
 
 -- /*******************************************************
 -- *
@@ -52,12 +72,13 @@ CREATE TABLE `civicrm_tokendefaults` (
      `id` int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Tokendefaults ID',
      `token` varchar(255)    ,
      `default` varchar(255)    ,
-     `is_active` tinyint     
+     `is_active` tinyint    ,
+     `set_id` int unsigned    COMMENT 'FK to Tokendefaults Set' 
 ,
         PRIMARY KEY (`id`)
  
  
- 
+,          CONSTRAINT FK_civicrm_tokendefaults_set_id FOREIGN KEY (`set_id`) REFERENCES `civicrm_tokendefaults_set`(`id`) ON DELETE CASCADE  
 )    ;
 
  

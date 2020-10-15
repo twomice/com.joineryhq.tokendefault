@@ -54,7 +54,7 @@ class CRM_Tokendefault_Page_TokendefaultsSet extends CRM_Core_Page {
     if ($action & CRM_Core_Action::DELETE) {
       $session = CRM_Core_Session::singleton();
       $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/tokendefault/', 'action=browse'));
-      $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_DeleteGroup', "Delete Token Default Set", NULL);
+      $controller = new CRM_Core_Controller_Simple('CRM_Tokendefault_Form_TokendefaultsSetDelete', "Delete Token Default Set", NULL);
       $id = CRM_Utils_Request::retrieve('id', 'Positive',
         $this, FALSE, 0
       );
@@ -63,6 +63,7 @@ class CRM_Tokendefault_Page_TokendefaultsSet extends CRM_Core_Page {
       $controller->process();
       $controller->run();
     }
+
     // assign vars to templates
     $this->assign('action', $action);
     $id = CRM_Utils_Request::retrieve('id', 'Positive',

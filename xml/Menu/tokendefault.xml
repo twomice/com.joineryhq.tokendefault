@@ -18,4 +18,10 @@
     <title>TokendefaultsSet</title>
     <access_arguments>access CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/admin/tokendefault/delete</path>
+    <page_callback>CRM_Tokendefault_Form_TokendefaultsSetDelete</page_callback>
+    <title>TokendefaultsSetDelete</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
 </menu>

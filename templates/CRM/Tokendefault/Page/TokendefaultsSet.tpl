@@ -1,18 +1,7 @@
 {if $action eq 1 or $action eq 2 or $action eq 4}
-    {include file="CRM/Tokendefault/Form/tokendefaultsSet.tpl"}
+    {include file="CRM/Tokendefault/Form/TokendefaultsSet.tpl"}
 {elseif $action eq 8}
-    <div class="crm-block crm-form-block crm-custom-deletegroup-form-block">
-      <div class="crm-submit-buttons">
-         {include file="CRM/common/formButtons.tpl" location="top"}
-      </div>
-          <div class="messages status no-popup">
-                 <div class="icon inform-icon"></div>
-                {ts 1=$title}WARNING: Deleting this custom field set will result in the loss of all '%1' data.{/ts} {ts}This action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
-          </div>
-      <div class="crm-submit-buttons">
-         {include file="CRM/common/formButtons.tpl" location="bottom"}
-    </div>
-    </div>
+    {include file="CRM/Tokendefault/Form/TokendefaultsSetDelete.tpl"}
 {else}
     {if $rows}
     <div class="crm-content-block crm-block">
@@ -30,7 +19,7 @@
         </thead>
         <tbody>
         {foreach from=$rows item=row}
-        <tr id="TokenDefaultSet-{$row.id}" data-action="setvalue" class="crm-entity {cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+        <tr id="TokenDefaultSet-{$row.id}" data-action="setvalue" class="crm-entity {cycle values="odd-row,even-row"}">
           <td>{$row.id}</td>
           <td class="crmf-title crm-editable">{$row.title}</td>
           <td>{$row.action|replace:'xx':$row.id}</td>

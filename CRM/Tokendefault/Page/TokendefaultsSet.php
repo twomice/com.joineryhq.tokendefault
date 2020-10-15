@@ -45,13 +45,96 @@ class CRM_Tokendefault_Page_TokendefaultsSet extends CRM_Core_Page {
   }
 
   public function run() {
-    // Example: Set the page-title dynamically; alternatively, declare a static title in xml/Menu/*.xml
+    // get the requested action
+    $action = CRM_Utils_Request::retrieve('action', 'String',
+      // default to 'browse'
+      $this, FALSE, 'browse'
+    );
+
+    if ($action & CRM_Core_Action::DELETE) {
+      $session = CRM_Core_Session::singleton();
+      $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/tokendefault/', 'action=browse'));
+      $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_DeleteGroup', "Delete Token Default Set", NULL);
+      $id = CRM_Utils_Request::retrieve('id', 'Positive',
+        $this, FALSE, 0
+      );
+      $controller->set('id', $id);
+      $controller->setEmbedded(TRUE);
+      $controller->process();
+      $controller->run();
+    }
+    // assign vars to templates
+    $this->assign('action', $action);
+    $id = CRM_Utils_Request::retrieve('id', 'Positive',
+      $this, FALSE, 0
+    );
+
+    // what action to take ?
+    if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+      $this->edit($id, $action);
+    }
+    elseif ($action & CRM_Core_Action::PREVIEW) {
+      $this->preview($id);
+    }
+    else {
+      // finally browse the custom groups
+      $this->browse();
+    }
+
     CRM_Utils_System::setTitle(E::ts('Token Default Set'));
 
-    // Example: Assign a variable for use in a template
-    $this->assign('currentTime', date('Y-m-d H:i:s'));
-
     parent::run();
+  }
+
+  /**
+   * Edit custom group.
+   *
+   * @param int $id
+   *   Custom group id.
+   * @param string $action
+   *   The action to be invoked.
+   *
+   * @return void
+   */
+  public function edit($id, $action) {
+    // create a simple controller for editing custom data
+    $controller = new CRM_Core_Controller_Simple('CRM_Tokendefault_FORM_TokendefaultsSet', ts('Custom Set'), $action);
+
+    // set the userContext stack
+    $session = CRM_Core_Session::singleton();
+    $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/tokendefault/', 'action=browse'));
+    $controller->set('id', $id);
+    $controller->setEmbedded(TRUE);
+    $controller->process();
+    $controller->run();
+  }
+
+  /**
+   * Browse all custom data groups.
+   *
+   * @param string $action
+   *   The action to be invoked.
+   *
+   * @return void
+   */
+  public function browse($action = NULL) {
+    $tokenDefaultSetsRow = [];
+    $tokendefaultsSets = \Civi\Api4\TokendefaultsSet::get()->execute();
+    foreach ($tokendefaultsSets as $tokendefaultsSet) {
+      $id = $tokendefaultsSet['id'];
+      $tokenDefaultSetsRow[$id]['id'] = $id;
+      $tokenDefaultSetsRow[$id]['title'] = $tokendefaultsSet['title'];
+      $tokenDefaultSetsRow[$id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action,
+        ['id' => $id],
+        ts('more'),
+        FALSE,
+        'tokenDefaultSet.row.actions',
+        'tokenDefaultSet',
+        $id
+      );
+    }
+
+    $this->assign('rows', $tokenDefaultSetsRow);
   }
 
 }

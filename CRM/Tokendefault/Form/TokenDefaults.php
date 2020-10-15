@@ -140,7 +140,7 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
 
     CRM_Core_Session::setStatus(E::ts('Defaults saved'), E::ts('Token Defaults'), 'success');
 
-    CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/admin/tokendefaults/defaults',
+    CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/admin/tokendefault',
       "reset=1"
     ));
 

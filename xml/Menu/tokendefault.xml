@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <menu>
   <item>
-    <path>civicrm/admin/tokendefaults/defaults</path>
+    <path>civicrm/admin/tokendefault/default</path>
     <page_callback>CRM_Tokendefault_Form_TokenDefaults</page_callback>
     <title>TokenDefaults</title>
     <access_arguments>access CiviCRM</access_arguments>
   </item>
   <item>
-    <path>civicrm/admin/tokendefaults</path>
+    <path>civicrm/admin/tokendefault</path>
     <page_callback>CRM_Tokendefault_Page_TokendefaultsSet</page_callback>
     <title>TokendefaultsSet</title>
     <access_arguments>access CiviCRM</access_arguments>

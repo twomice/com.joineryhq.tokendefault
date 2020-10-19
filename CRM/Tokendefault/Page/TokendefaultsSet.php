@@ -74,9 +74,6 @@ class CRM_Tokendefault_Page_TokendefaultsSet extends CRM_Core_Page {
     if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
       $this->edit($id, $action);
     }
-    elseif ($action & CRM_Core_Action::PREVIEW) {
-      $this->preview($id);
-    }
     else {
       // finally browse the custom groups
       $this->browse();
@@ -99,7 +96,7 @@ class CRM_Tokendefault_Page_TokendefaultsSet extends CRM_Core_Page {
    */
   public function edit($id, $action) {
     // create a simple controller for editing custom data
-    $controller = new CRM_Core_Controller_Simple('CRM_Tokendefault_Form_TokendefaultsSet', ts('Custom Set'), $action);
+    $controller = new CRM_Core_Controller_Simple('CRM_Tokendefault_FORM_TokendefaultsSet', ts('Custom Set'), $action);
 
     // set the userContext stack
     $session = CRM_Core_Session::singleton();

@@ -96,7 +96,7 @@ class CRM_Tokendefault_Page_TokendefaultsSet extends CRM_Core_Page {
    */
   public function edit($id, $action) {
     // create a simple controller for editing custom data
-    $controller = new CRM_Core_Controller_Simple('CRM_Tokendefault_FORM_TokendefaultsSet', ts('Custom Set'), $action);
+    $controller = new CRM_Core_Controller_Simple('CRM_Tokendefault_Form_TokendefaultsSet', ts('Custom Set'), $action);
 
     // set the userContext stack
     $session = CRM_Core_Session::singleton();

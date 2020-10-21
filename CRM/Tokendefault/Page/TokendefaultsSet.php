@@ -76,6 +76,8 @@ class CRM_Tokendefault_Page_TokendefaultsSet extends CRM_Core_Page {
     }
     else {
       // finally browse the custom groups
+      $session = CRM_Core_Session::singleton();
+      $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/tokendefault/', 'reset=1', true));
       $this->browse();
     }
 

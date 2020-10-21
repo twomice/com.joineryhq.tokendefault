@@ -34,7 +34,6 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
     $this->add('hidden', "token_row_count", NULL);
     $this->assign('tokens', CRM_Utils_Token::formatTokensForDisplay($tokens));
     $this->assign('tokenDefaults', $tokenDefNewArr);
-    $cancelURL = CRM_Utils_System::url('civicrm/admin/tokendefault', 'reset=1');
 
     $this->addButtons(array(
       array(
@@ -45,9 +44,6 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
       array(
         'type' => 'cancel',
         'name' => E::ts('Cancel'),
-        'js' => array(
-          'onclick' => "location.href='{$cancelURL}'; return false;"
-        ),
       ),
     ));
 

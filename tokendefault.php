@@ -219,14 +219,9 @@ function tokendefault_civicrm_buildForm($formName, &$form) {
     case 'CRM_Contact_Form_Task_PDF':
       CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.tokendefault', 'js/tokendefault-utils.js');
       CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.tokendefault', 'js/CRM_Contact_Form_Task_Email-and-PDF.js');
-      $vars = array(
-        'defaultSet' => array (
-          1 => 'Meowk Set',
-          2 => 'Meowk Set 2',
-        ),
-      );
-      CRM_Core_Resources::singleton()->addVars('tokendefault', $vars);
 
+      $tokendefaultsSets = \Civi\Api4\TokendefaultsSet::get()->execute();
+      CRM_Core_Resources::singleton()->addVars('tokendefault', $tokendefaultsSets);
       break;
   }
 }

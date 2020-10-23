@@ -191,6 +191,10 @@ function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokenGr
     ->execute();
   $tokenDefaults = [];
 
+  if (empty($tokenDefaultsRows)) {
+    return;
+  }
+
   foreach ($tokenDefaultsRows as $tokenDefaultRow) {
     $tokenToken = str_replace(array('{', '}'), '', $tokenDefaultRow['token']);
     $tokenDefaults[$tokenToken] = $tokenDefaultRow['default'];

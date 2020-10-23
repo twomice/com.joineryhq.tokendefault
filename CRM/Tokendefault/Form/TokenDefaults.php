@@ -49,6 +49,9 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
 
     $this->addFormRule(['CRM_Tokendefault_Form_TokenDefaults', 'formRule'], $this);
 
+    $session = CRM_Core_Session::singleton();
+    $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/tokendefault/', 'reset=1', true));
+
     parent::buildQuickForm();
   }
 

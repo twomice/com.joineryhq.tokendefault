@@ -206,3 +206,27 @@ function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokenGr
     }
   }
 }
+
+/**
+ * Implements hook_civicrm_buildForm().
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_buildForm
+ *
+ */
+function tokendefault_civicrm_buildForm($formName, &$form) {
+  switch ($formName) {
+    case 'CRM_Contact_Form_Task_Email':
+    case 'CRM_Contact_Form_Task_PDF':
+      CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.tokendefault', 'js/tokendefault-utils.js');
+      CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.tokendefault', 'js/CRM_Contact_Form_Task_Email-and-PDF.js');
+      $vars = array(
+        'defaultSet' => array (
+          1 => 'Meowk Set',
+          2 => 'Meowk Set 2',
+        ),
+      );
+      CRM_Core_Resources::singleton()->addVars('tokendefault', $vars);
+
+      break;
+  }
+}

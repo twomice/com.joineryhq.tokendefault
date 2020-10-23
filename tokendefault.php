@@ -179,20 +179,21 @@ function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokenGr
     foreach ($tokenGroups['TokenDefault'] as $tokenGroupTokens) {
       if (preg_match('/set___([0-9]+)/', $tokenGroupTokens, $matches)) {
         $setId = $matches[1];
+
+        break;
       }
     }
   }
 
   $tokenDefaultsRows = \Civi\Api4\Tokendefaults::get()
     ->addWhere('set_id', '=', $setId)
+    ->addWhere('is_active', '=', 1)
     ->execute();
   $tokenDefaults = [];
 
   foreach ($tokenDefaultsRows as $tokenDefaultRow) {
-    if ($tokenDefaultRow['is_active']) {
-      $tokenToken = str_replace(array('{', '}'), '', $tokenDefaultRow['token']);
-      $tokenDefaults[$tokenToken] = $tokenDefaultRow['default'];
-    }
+    $tokenToken = str_replace(array('{', '}'), '', $tokenDefaultRow['token']);
+    $tokenDefaults[$tokenToken] = $tokenDefaultRow['default'];
   }
 
   foreach ($cids as $cid) {

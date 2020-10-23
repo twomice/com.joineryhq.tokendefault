@@ -220,7 +220,7 @@ function tokendefault_civicrm_buildForm($formName, &$form) {
       CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.tokendefault', 'js/tokendefault-utils.js');
       CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.tokendefault', 'js/CRM_Contact_Form_Task_Email-and-PDF.js');
 
-      $tokendefaultsSets = \Civi\Api4\TokendefaultsSet::get()->execute();
+      $tokendefaultsSets['sets'] = \Civi\Api4\TokendefaultsSet::get()->execute();
       CRM_Core_Resources::singleton()->addVars('tokendefault', $tokendefaultsSets);
       break;
   }

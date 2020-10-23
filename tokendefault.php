@@ -170,6 +170,16 @@ function tokendefault_civicrm_navigationMenu(&$menu) {
 }
 
 /**
+ * Implements hook_civicrm_tokens().
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_tokens
+ *
+ */
+function tokendefault_civicrm_tokens(&$tokens) {
+  $tokens['TokenDefault'] = [];
+}
+
+/**
  * Implements hook_civicrm__tokenValues().
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_tokenValues
  */

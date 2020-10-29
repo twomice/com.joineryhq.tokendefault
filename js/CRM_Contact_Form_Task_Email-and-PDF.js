@@ -1,7 +1,7 @@
 CRM.$(function($) {
   $('div.crm-html_email-accordion div.crm-token-selector').before('\n\
-    <div id="tokendefaultSelector" title="Select Token Default Set" style="display:none">\n\
-      <select name="tokendefault-set" style="margin: 2em;" /></select>\n\
+    <div id="tokendefaultSelector" title="Token Default Set" style="display:none">\n\
+      <select name="tokendefault-set" style="margin: 2em; min-width: 20em;" /></select>\n\
     </div>\n\
     <a id="tokendefaultSelectorOpen" style="float:left; margin-bottom: 10px;" class="button"><span>' + ts("Select Token Default Set") + '</span></a>\n\
   ');
@@ -11,7 +11,7 @@ CRM.$(function($) {
     setOption += "<option value=" + CRM.vars.tokendefault.sets[i].id + ">" + CRM.vars.tokendefault.sets[i].title + "</option>";
   }
 
-  $('#tokendefaultSelector select').html(setOption);
+  $('#tokendefaultSelector select').html(setOption).select2();
 
   $('#tokendefaultSelector').dialog(
     {

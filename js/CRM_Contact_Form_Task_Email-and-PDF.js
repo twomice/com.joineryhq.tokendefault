@@ -8,7 +8,8 @@ CRM.$(function($) {
 
   var setOption;
   for (i in CRM.vars.tokendefault.sets) {
-    setOption += "<option value=" + CRM.vars.tokendefault.sets[i].id + ">" + CRM.vars.tokendefault.sets[i].title + "</option>";
+    var defaultSet = CRM.vars.tokendefault.sets[i].is_default ? 'selected' : '';
+    setOption += "<option value=" + CRM.vars.tokendefault.sets[i].id + " " + defaultSet + ">" + CRM.vars.tokendefault.sets[i].title + "</option>";
   }
 
   $('#tokendefaultSelector select').html(setOption).select2();

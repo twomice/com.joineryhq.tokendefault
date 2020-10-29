@@ -195,6 +195,16 @@ function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokenGr
     }
   }
 
+  if (empty($setId)) {
+    $tokendefaultsSets = \Civi\Api4\TokendefaultsSet::get()
+      ->addWhere('is_default', '=', 1)
+      ->setLimit(1)
+      ->execute();
+    foreach ($tokendefaultsSets as $tokendefaultsSet) {
+      $setId = $tokendefaultsSet['id'];
+    }
+  }
+
   $tokenDefaultsRows = \Civi\Api4\Tokendefaults::get()
     ->addWhere('set_id', '=', $setId)
     ->addWhere('is_active', '=', 1)

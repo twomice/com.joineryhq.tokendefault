@@ -14,6 +14,7 @@
           <tr>
             <th>{ts}ID{/ts}</th>
             <th>{ts}Title{/ts}</th>
+            <th>{ts}Default?{/ts}</th>
             <th></th>
           </tr>
         </thead>
@@ -22,6 +23,7 @@
         <tr id="TokenDefaultSet-{$row.id}" data-action="setvalue" class="crm-entity {cycle values="odd-row,even-row"}">
           <td>{$row.id}</td>
           <td class="crmf-title crm-editable">{$row.title}</td>
+          <td class="crmf-is_default center">{icon condition=$row.is_default}{ts}Default{/ts}{/icon}&nbsp;</td>
           <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}

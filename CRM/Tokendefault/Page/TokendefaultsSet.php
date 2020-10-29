@@ -122,6 +122,7 @@ class CRM_Tokendefault_Page_TokendefaultsSet extends CRM_Core_Page {
       $id = $tokendefaultsSet['id'];
       $tokenDefaultSetsRow[$id]['id'] = $id;
       $tokenDefaultSetsRow[$id]['title'] = $tokendefaultsSet['title'];
+      $tokenDefaultSetsRow[$id]['is_default'] = $tokendefaultsSet['is_default'];
       $tokenDefaultSetsRow[$id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action,
         ['id' => $id],
         ts('more'),

@@ -24,4 +24,10 @@
     <length>255</length>
   </field>
 
+  <field>
+    <name>is_default</name>
+    <type>tinyint</type>
+    <length>4</length>
+  </field>
+
 </table>

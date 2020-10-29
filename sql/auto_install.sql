@@ -51,7 +51,8 @@ CREATE TABLE `civicrm_tokendefaults_set` (
 
 
      `id` int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique TokendefaultsSet ID',
-     `title` varchar(255)     
+     `title` varchar(255)    ,
+     `is_default` tinyint     
 ,
         PRIMARY KEY (`id`)
  

@@ -155,6 +155,61 @@ function tokendefault_civicrm_themes(&$themes) {
 //}
 
 /**
+ * Implements hook_civicrm_alterAngular().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterAngular/
+ *
+ */
+function tokendefault_civicrm_alterAngular(\Civi\Angular\Manager $angular) {
+  // Alter angular content for Mailing page, by adding some buttons and a div
+  // that can function as a jQuery-ui dialog.
+  $changeSet = \Civi\Angular\ChangeSet::create('inject_tokendefault_tools')
+    ->alterHtml('~/crmMailing/BodyHtml.html',
+      function (phpQueryObject $doc) {
+        $tokendefaultsSets = \Civi\Api4\TokendefaultsSet::get()->execute();
+        $setOptions = '';
+
+        foreach ($tokendefaultsSets as $tokendefaultsSet) {
+          $isDefault = $tokendefaultsSet['is_default'] ? 'selected' : '';
+          $setOptions .= "<option value='{$tokendefaultsSet['id']}' {$isDefault}>{$tokendefaultsSet['title']}</option>";
+        }
+
+        $doc->find('input[crm-mailing-token]')->before('
+          <div id="tokendefaultSelector" title="Token Default Set" style="display:none">
+            <select name="tokendefault-set" style="margin: 2em; min-width: 20em;">' . $setOptions . '</select>
+          </div>
+        ' .
+        // Quick-and-dirty: we're not really using AngularJS to handle this custom
+        // feature, instead just using good old-fashioned jQuery. This means our
+        // call to $.dialog() won't be fired on page load, so we fire it on-click
+        // of the "Select Public Official" button; thus we have here all the
+        // params for $.dialog(), such as dialog properties, buttons, etc.
+        '
+          <a id="tokendefaultSelectorOpen" onclick="CRM.$( \'#tokendefaultSelector\' ).dialog({width: \'auto\', modal: true,   buttons: [
+            {
+              text: \'Cancel\',
+              icon: \'fa-times\',
+              click: function() {
+                CRM.$( this ).dialog( \'close\' );
+              }
+            },
+            {
+              text: \'Select\',
+              icon: \'fa-check\',
+              click: function() {
+                tokendefault.insertHtmlTokenDefaultSet(\'textarea[name=body_html]\', \'select[name=tokendefault-set]\');
+                CRM.$( this ).dialog( \'close\' );
+              }
+            }
+          ]});" style="float:left; margin-bottom: 10px;" class="button"><span>{{ts("Select Token Default Set")}}<span></a>
+        ');
+      });
+  $angular->add($changeSet);
+  CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.tokendefault', 'js/tokendefault-utils.js');
+}
+
+
+/**
  * Implements hook_civicrm_navigationMenu().
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_navigationMenu

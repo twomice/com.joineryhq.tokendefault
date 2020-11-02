@@ -24,4 +24,10 @@
     <title>TokendefaultsSetDelete</title>
     <access_arguments>access CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/tokendefault/mosaico-js</path>
+    <page_callback>CRM_Tokendefault_Page_MosaicoJs</page_callback>
+    <title>MosaicoJs</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
 </menu>

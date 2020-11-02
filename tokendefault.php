@@ -208,6 +208,16 @@ function tokendefault_civicrm_alterAngular(\Civi\Angular\Manager $angular) {
   CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.tokendefault', 'js/tokendefault-utils.js');
 }
 
+/**
+ * Implements hook_civicrm_alterMenu().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterMenu
+ */
+function tokendefault_civicrm_alterMenu(&$items) {
+  // Override CRM_Mosaico_Page_EditorIframe with our own CRM_Campaignadv_Mosaico_Page_EditorIframe.
+  $items['civicrm/mosaico/iframe']['page_callback'] = 'CRM_Tokendefault_Mosaico_Page_EditorIframe';
+}
+
 
 /**
  * Implements hook_civicrm_navigationMenu().

@@ -214,7 +214,7 @@ function tokendefault_civicrm_alterAngular(\Civi\Angular\Manager $angular) {
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterMenu
  */
 function tokendefault_civicrm_alterMenu(&$items) {
-  // Override CRM_Mosaico_Page_EditorIframe with our own CRM_Campaignadv_Mosaico_Page_EditorIframe.
+  // Override CRM_Mosaico_Page_EditorIframe with our own CRM_Tokendefault_Mosaico_Page_EditorIframe.
   $items['civicrm/mosaico/iframe']['page_callback'] = 'CRM_Tokendefault_Mosaico_Page_EditorIframe';
 }
 
@@ -249,6 +249,9 @@ function tokendefault_civicrm_tokens(&$tokens) {
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_tokenValues
  */
 function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokenGroups = [], $context = null) {
+  // Normalize tokens for CiviMail vs non-civiMail.
+  $tokenGroups = _tokendefault_normalize_token_values($tokenGroups);
+
   $setId = NULL;
   if (isset($tokenGroups['TokenDefault'])) {
     foreach ($tokenGroups['TokenDefault'] as $tokenGroupTokens) {
@@ -314,4 +317,23 @@ function tokendefault_civicrm_buildForm($formName, &$form) {
       CRM_Core_Resources::singleton()->addVars('tokendefault', $tokendefaultsSets);
       break;
   }
+}
+
+/**
+ * Normalize token array structure. CiviCRM presents tokens to hook_civicrm_tokenValues
+ * in varying array structures, depending on whether the context is CiviMail (in
+ * which case the tokens are named in array keys) or one-off mailings / merge
+ * documents (in which case tokens are named in array values). This function
+ * ensures all are named in array keys.
+ *
+ * @param type $tokens
+ * @return type
+ */
+function _tokendefault_normalize_token_values($tokens) {
+  foreach ($tokens as $key => $values) {
+    if (!array_key_exists(0, $values)) {
+      $tokens[$key] = array_keys($values);
+    }
+  }
+  return $tokens;
 }

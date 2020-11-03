@@ -17,7 +17,16 @@ CRM.$(function($){
         data += '{TokenDefault.set___' +  filterSet + '}';
       }
       // Apply the altered content to the on-page ckeditor instance.
-      ckeInstance.setData(data);
+      ckeInstance.setData(data, {
+        callback: function() {
+          // Set range; without this, something about ckeditor makes it fail to recognize
+          // the effects of setData() (at least WRT the value submitted with the form)
+          // until the user mouse-clicks in the editor.
+          var range = this.createRange();
+          range.moveToElementEditEnd( range.root );
+          this.getSelection().selectRanges( [ range ] );
+        }
+      });
     }
   }
 

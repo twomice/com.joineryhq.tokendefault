@@ -19,21 +19,6 @@ class CRM_Tokendefault_Mosaico_Page_EditorIframe extends CRM_Mosaico_Page_Editor
     return $config;
   }
 
-/**
- * Copied from CRM_Core_Resources::resolveFileName, just so we can use it here
- * (why it should be private, I don't know).
- *
- */
-  private function resolveFileName(&$fileName, $extName) {
-    $res = CRM_Core_Resources::singleton();
-    if (CRM_Core_Config::singleton()->debug && strpos($fileName, '.min.') !== FALSE) {
-      $nonMiniFile = str_replace('.min.', '.', $fileName);
-      if ($res->getPath($extName, $nonMiniFile)) {
-        $fileName = $nonMiniFile;
-      }
-    }
-  }
-
   /**
    * Modify return value of parent:: method.
    */
@@ -54,7 +39,7 @@ class CRM_Tokendefault_Mosaico_Page_EditorIframe extends CRM_Mosaico_Page_Editor
           $itemUrl = $item;
         }
         else {
-          $this->resolveFileName($item, 'civicrm');
+          $item = CRM_Core_Resources::filterMinify('civicrm', $item);
           $itemUrl = $res->getUrl('civicrm', $item, TRUE);
         }
         $scriptUrls[] = $itemUrl;
@@ -100,7 +85,7 @@ class CRM_Tokendefault_Mosaico_Page_EditorIframe extends CRM_Mosaico_Page_Editor
           $itemUrl = $item;
         }
         else {
-          $this->resolveFileName($item, 'civicrm');
+          $item = CRM_Core_Resources::filterMinify('civicrm', $item);
           $itemUrl = $res->getUrl('civicrm', $item, TRUE);
         }
         $styleUrls[] = $itemUrl;

@@ -1,5 +1,5 @@
 /**
- * tokendefault - TinyMCE plugin which allows users to easily insert a "sid"
+ * tokendefault - TinyMCE plugin which allows users to easily insert a "set"
  * token for token default.
 /*global tinymce:true */
 
@@ -55,13 +55,13 @@ tinymce.PluginManager.add('tokendefault', function(editor, pluginUrl) {
           click: function() {
             var data = tinymce.activeEditor.getContent();
             // Strip any existing "filter_cid" token.
-            data = data.replace(/(<p>)?{TokenDefault.sid___[0-9]*}(<\/p>)?/, '');
+            data = data.replace(/(<p>)?{TokenDefault.set___[0-9]*}(<\/p>)?/, '');
             // Get the cid of the selected Public Official contact, if any.
             var filterCid = CRM.$('select[name=tokendefault-set]').val();
             // If a public official cid is found, insert the filter_cid token at the end
             // of the ckeditor HTML content.
             if (filterCid) {
-              data += '{TokenDefault.sid___' +  filterCid + '}';
+              data += '{TokenDefault.set___' +  filterCid + '}';
             }
             // Apply the altered content to the activetinymce instance.
             tinymce.activeEditor.execCommand('mceSetContent', false, data);

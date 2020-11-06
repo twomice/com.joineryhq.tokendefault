@@ -401,3 +401,30 @@ function _tokendefault_normalize_token_values($tokens) {
   }
   return $tokens;
 }
+
+/**
+ * Implements hook_civicrm_pageRun().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_pageRun/
+ *
+ */
+function tokendefault_civicrm_pageRun(&$page) {
+  if($page->getVar('_name') == 'CRM_Admin_Page_Extensions') {
+
+    $manager = CRM_Extension_System::singleton()->getManager();
+
+    $dependencies = array(
+      'com.joineryhq.mosaicohooks',
+    );
+
+    foreach($dependencies as $ext) {
+      if($manager->getStatus($ext) != CRM_Extension_Manager::STATUS_INSTALLED) {
+        CRM_Core_Session::setStatus(
+          E::ts('Extensions Tokendefault and Mosaico would work better together if you install the Mosaico Hooks extension.'),
+          E::ts('Tokendefault Extension'),
+          'info'
+        );
+      }
+    }
+  }
+}

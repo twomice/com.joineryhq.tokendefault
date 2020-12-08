@@ -208,11 +208,13 @@ function tokendefault_civicrm_alterAngular(\Civi\Angular\Manager $angular) {
   CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.tokendefault', 'js/tokendefault-utils.js');
 }
 
-function tokendefault_civicrm_mosaicoConfigAlter(&$config) {
-  $config['tinymceConfig']['external_plugins']['tokendefault'] = CRM_Core_Resources::singleton()->getUrl('com.joineryhq.tokendefault', 'js/tinymce-plugins/tokendefault/plugin.js', 1);
-  $config['tinymceConfig']['plugins'][0] .= ' tokendefault';
-  $config['tinymceConfig']['toolbar1'] .= ' tokendefault';
-  $config['tinymceConfig']['tokendefault'] = true;
+function tokendefault_civicrm_mosaicoConfig(&$config) {
+  if (_tokendefault_civicrm_checkMosaicoHooks()) {
+    $config['tinymceConfig']['external_plugins']['tokendefault'] = CRM_Core_Resources::singleton()->getUrl('com.joineryhq.tokendefault', 'js/tinymce-plugins/tokendefault/plugin.js', 1);
+    $config['tinymceConfig']['plugins'][0] .= ' tokendefault';
+    $config['tinymceConfig']['toolbar1'] .= ' tokendefault';
+    $config['tinymceConfig']['tokendefault'] = true;
+  }
 }
 
 function tokendefault_civicrm_mosaicoScriptUrlsAlter(&$scriptUrls) {
@@ -410,21 +412,28 @@ function _tokendefault_normalize_token_values($tokens) {
  */
 function tokendefault_civicrm_pageRun(&$page) {
   if($page->getVar('_name') == 'CRM_Admin_Page_Extensions') {
-
-    $manager = CRM_Extension_System::singleton()->getManager();
-
-    $dependencies = array(
-      'com.joineryhq.mosaicohooks',
-    );
-
-    foreach($dependencies as $ext) {
-      if($manager->getStatus($ext) != CRM_Extension_Manager::STATUS_INSTALLED) {
-        CRM_Core_Session::setStatus(
-          E::ts('Extensions Tokendefault and Mosaico would work better together if you install the Mosaico Hooks extension.'),
-          E::ts('Tokendefault Extension'),
-          'info'
-        );
-      }
+    if (!_tokendefault_civicrm_checkMosaicoHooks()) {
+      CRM_Core_Session::setStatus(
+        E::ts('Extensions Tokendefault and Mosaico would work better together if you install the Mosaico Hooks extension.'),
+        E::ts('Tokendefault Extension'),
+        'info'
+      );
     }
   }
+}
+
+function _tokendefault_civicrm_checkMosaicoHooks() {
+  $extensionIsInstalled = TRUE;
+  $manager = CRM_Extension_System::singleton()->getManager();
+  $dependencies = array(
+    'com.joineryhq.mosaicohooks',
+  );
+
+  foreach($dependencies as $ext) {
+    if($manager->getStatus($ext) != CRM_Extension_Manager::STATUS_INSTALLED) {
+      $extensionIsInstalled = FALSE;
+    }
+  }
+
+  return $extensionIsInstalled;
 }

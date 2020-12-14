@@ -26,12 +26,12 @@ class CRM_Tokendefault_Form_TokendefaultsSetDelete extends CRM_Core_Form {
     $this->addButtons([
       [
         'type' => 'next',
-        'name' => ts('Delete Token Default Set'),
+        'name' => E::ts('Delete Token Default Set'),
         'isDefault' => TRUE,
       ],
       [
         'type' => 'cancel',
-        'name' => ts('Cancel'),
+        'name' => E::ts('Cancel'),
       ],
     ]);
 

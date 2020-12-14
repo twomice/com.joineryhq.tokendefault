@@ -22,22 +22,22 @@ class CRM_Tokendefault_Page_TokendefaultsSet extends CRM_Core_Page {
     if (!isset(self::$_actionLinks)) {
       self::$_actionLinks = [
         CRM_Core_Action::BROWSE => [
-          'name' => ts('View and Edit Token Default'),
+          'name' => E::ts('View and Edit Token Default'),
           'url' => 'civicrm/admin/tokendefault/default',
           'qs' => 'reset=1&sid=%%id%%',
-          'title' => ts('View and Edit Token Default'),
+          'title' => E::ts('View and Edit Token Default'),
         ],
         CRM_Core_Action::UPDATE => [
-          'name' => ts('Settings'),
+          'name' => E::ts('Settings'),
           'url' => 'civicrm/admin/tokendefault',
           'qs' => 'action=update&reset=1&id=%%id%%',
-          'title' => ts('Edit Token Default Set'),
+          'title' => E::ts('Edit Token Default Set'),
         ],
         CRM_Core_Action::DELETE => [
-          'name' => ts('Delete'),
+          'name' => E::ts('Delete'),
           'url' => 'civicrm/admin/tokendefault',
           'qs' => 'action=delete&reset=1&id=%%id%%',
-          'title' => ts('Delete Token Default Set'),
+          'title' => E::ts('Delete Token Default Set'),
         ],
       ];
     }
@@ -96,7 +96,7 @@ class CRM_Tokendefault_Page_TokendefaultsSet extends CRM_Core_Page {
    */
   public function edit($id, $action) {
     // create a simple controller for editing custom data
-    $controller = new CRM_Core_Controller_Simple('CRM_Tokendefault_Form_TokendefaultsSet', ts('Custom Set'), $action);
+    $controller = new CRM_Core_Controller_Simple('CRM_Tokendefault_Form_TokendefaultsSet', E::ts('Custom Set'), $action);
 
     // set the userContext stack
     $session = CRM_Core_Session::singleton();
@@ -125,7 +125,7 @@ class CRM_Tokendefault_Page_TokendefaultsSet extends CRM_Core_Page {
       $tokenDefaultSetsRow[$id]['is_default'] = $tokendefaultsSet['is_default'];
       $tokenDefaultSetsRow[$id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action,
         ['id' => $id],
-        ts('more'),
+        E::ts('more'),
         FALSE,
         'tokenDefaultSet.row.actions',
         'tokenDefaultSet',

@@ -10,7 +10,7 @@ use CRM_Tokendefault_ExtensionUtil as E;
 class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
 
   public function preProcess() {
-    CRM_Utils_System::setTitle(ts('Token Default'));
+    CRM_Utils_System::setTitle(E::ts('Token Default'));
   }
 
   public function buildQuickForm() {

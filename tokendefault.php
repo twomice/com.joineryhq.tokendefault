@@ -213,7 +213,7 @@ function tokendefault_civicrm_mosaicoConfig(&$config) {
     $config['tinymceConfig']['external_plugins']['tokendefault'] = CRM_Core_Resources::singleton()->getUrl('com.joineryhq.tokendefault', 'js/tinymce-plugins/tokendefault/plugin.js', 1);
     $config['tinymceConfig']['plugins'][0] .= ' tokendefault';
     $config['tinymceConfig']['toolbar1'] .= ' tokendefault';
-    $config['tinymceConfig']['tokendefault'] = true;
+    $config['tinymceConfig']['tokendefault'] = TRUE;
   }
 }
 
@@ -260,7 +260,6 @@ function tokendefault_civicrm_mosaicoStyleUrlsAlter(&$styleUrls) {
   // crm-i.css added ahead of other styles so it can be overridden by FA.
   array_unshift($styleUrls, $res->getUrl('civicrm', 'css/crm-i.css', TRUE));
 
-
   $coreResourceList = $res->coreResourceList('html-header');
   $coreResourceList = array_filter($coreResourceList, 'is_string');
   foreach ($coreResourceList as $item) {
@@ -291,13 +290,13 @@ function tokendefault_civicrm_mosaicoStyleUrlsAlter(&$styleUrls) {
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_navigationMenu
  */
 function tokendefault_civicrm_navigationMenu(&$menu) {
- _tokendefault_civix_insert_navigation_menu($menu, 'Administer/Customize Data and Screens', array(
-   'label' => E::ts('Token Defaults'),
-   'name' => 'Token Defaults',
-   'url' => 'civicrm/admin/tokendefault?reset=1',
-   'permission' => 'access CiviCRM',
- ));
- _tokendefault_civix_navigationMenu($menu);
+  _tokendefault_civix_insert_navigation_menu($menu, 'Administer/Customize Data and Screens', array(
+    'label' => E::ts('Token Defaults'),
+    'name' => 'Token Defaults',
+    'url' => 'civicrm/admin/tokendefault?reset=1',
+    'permission' => 'access CiviCRM',
+  ));
+  _tokendefault_civix_navigationMenu($menu);
 }
 
 /**
@@ -312,9 +311,10 @@ function tokendefault_civicrm_tokens(&$tokens) {
 
 /**
  * Implements hook_civicrm__tokenValues().
+ *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_tokenValues
  */
-function tokendefault_civicrm_tokenValues(&$values, $cids, $job = null, $tokenGroups = [], $context = null) {
+function tokendefault_civicrm_tokenValues(&$values, $cids, $job = NULL, $tokenGroups = [], $context = NULL) {
   // Normalize tokens for CiviMail vs non-civiMail.
   $tokenGroups = _tokendefault_normalize_token_values($tokenGroups);
 
@@ -411,7 +411,7 @@ function _tokendefault_normalize_token_values($tokens) {
  *
  */
 function tokendefault_civicrm_pageRun(&$page) {
-  if($page->getVar('_name') == 'CRM_Admin_Page_Extensions') {
+  if ($page->getVar('_name') == 'CRM_Admin_Page_Extensions') {
     if (!_tokendefault_civicrm_checkMosaicoHooks()) {
       CRM_Core_Session::setStatus(
         E::ts('Extensions Tokendefault and Mosaico would work better together if you install the Mosaico Hooks extension.'),
@@ -429,8 +429,8 @@ function _tokendefault_civicrm_checkMosaicoHooks() {
     'com.joineryhq.mosaicohooks',
   );
 
-  foreach($dependencies as $ext) {
-    if($manager->getStatus($ext) != CRM_Extension_Manager::STATUS_INSTALLED) {
+  foreach ($dependencies as $ext) {
+    if ($manager->getStatus($ext) != CRM_Extension_Manager::STATUS_INSTALLED) {
       $extensionIsInstalled = FALSE;
     }
   }

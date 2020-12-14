@@ -8,6 +8,7 @@ use CRM_Tokendefault_ExtensionUtil as E;
  * @see https://docs.civicrm.org/dev/en/latest/framework/quickform/
  */
 class CRM_Tokendefault_Form_TokendefaultsSet extends CRM_Core_Form {
+
   public function buildQuickForm() {
     //title
     $this->add('text', 'title', E::ts('Set Name'), NULL, TRUE);
@@ -74,7 +75,8 @@ class CRM_Tokendefault_Form_TokendefaultsSet extends CRM_Core_Form {
           ->addValue('is_default', $isDefault)
           ->execute();
       }
-    } else {
+    }
+    else {
       $results = \Civi\Api4\TokendefaultsSet::create()
         ->addValue('title', $values['title'])
         ->addValue('is_default', $isDefault)
@@ -89,4 +91,5 @@ class CRM_Tokendefault_Form_TokendefaultsSet extends CRM_Core_Form {
 
     parent::postProcess();
   }
+
 }

@@ -8,6 +8,7 @@ use CRM_Tokendefault_ExtensionUtil as E;
  * @see https://docs.civicrm.org/dev/en/latest/framework/quickform/
  */
 class CRM_Tokendefault_Form_TokendefaultsSetDelete extends CRM_Core_Form {
+
   public function preProcess() {
     $id = CRM_Utils_Request::retrieve('id', 'Positive',
       $this, FALSE, 0

@@ -13,7 +13,7 @@ tinymce.PluginManager.add('tokendefault', function(editor, pluginUrl) {
   }
 
   editor.addCommand('tokendefault', function(ui, v) {
-
+    /*jshint multistr: true */
     CRM.$('body').append('\n\
       <div id="tokendefaultSelector" title="Token Default Set" style="display:none">\n\
         <select name="tokendefault-set" style="margin: 2em; min-width: 20em;" /></select>\n\

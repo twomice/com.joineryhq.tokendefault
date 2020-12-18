@@ -1,4 +1,5 @@
 CRM.$(function($) {
+  /*jshint multistr: true */
   $('div.crm-html_email-accordion div.crm-token-selector').before('\n\
     <div id="tokendefaultSelector" title="Token Default Set" style="display:none">\n\
       <select name="tokendefault-set" style="margin: 2em; min-width: 20em;" /></select>\n\
@@ -7,7 +8,7 @@ CRM.$(function($) {
   ');
 
   var setOption;
-  for (i in CRM.vars.tokendefault.sets) {
+  for (var i in CRM.vars.tokendefault.sets) {
     var defaultSet = CRM.vars.tokendefault.sets[i].is_default ? 'selected' : '';
     setOption += "<option value=" + CRM.vars.tokendefault.sets[i].id + " " + defaultSet + ">" + CRM.vars.tokendefault.sets[i].title + "</option>";
   }

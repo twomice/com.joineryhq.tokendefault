@@ -10,7 +10,7 @@ use CRM_Tokendefault_ExtensionUtil as E;
 class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
 
   public function preProcess() {
-    CRM_Utils_System::setTitle(ts('Token Default'));
+    CRM_Utils_System::setTitle(E::ts('Token Default'));
   }
 
   public function buildQuickForm() {
@@ -50,7 +50,7 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
     $this->addFormRule(['CRM_Tokendefault_Form_TokenDefaults', 'formRule'], $this);
 
     $session = CRM_Core_Session::singleton();
-    $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/tokendefault/', 'reset=1', true));
+    $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/tokendefault/', 'reset=1', TRUE));
 
     parent::buildQuickForm();
   }
@@ -132,18 +132,18 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
     );
     $tokenRowCount = $values['token_row_count'];
     $results = \Civi\Api4\Tokendefaults::delete()
-                ->addWhere('set_id', '=', $setId)
-                ->execute();
+      ->addWhere('set_id', '=', $setId)
+      ->execute();
 
     for ($i = 0; $i < $tokenRowCount; $i++) {
       if (!empty($values["token_{$i}"])) {
         $isActive = !empty($values["active_{$i}"]) ? 1 : 0;
         $results = \Civi\Api4\Tokendefaults::create()
-                  ->addValue('token', $values["token_{$i}"])
-                  ->addValue('default', $values["default_{$i}"])
-                  ->addValue('is_active', $isActive)
-                  ->addValue('set_id', $setId)
-                  ->execute();
+          ->addValue('token', $values["token_{$i}"])
+          ->addValue('default', $values["default_{$i}"])
+          ->addValue('is_active', $isActive)
+          ->addValue('set_id', $setId)
+          ->execute();
       }
     }
 
@@ -171,4 +171,5 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
       ->execute();
     return $tokenDefaults;
   }
+
 }

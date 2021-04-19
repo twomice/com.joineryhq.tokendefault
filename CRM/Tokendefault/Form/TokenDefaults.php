@@ -88,7 +88,7 @@ class CRM_Tokendefault_Form_TokenDefaults extends CRM_Core_Form {
    * @return array
    *   list of errors to be posted back to the form
    */
-  public function formRule($values) {
+  public static function formRule($values) {
     $errors = [];
     $tokens = [];
     $tokenRowCount = $values['token_row_count'];

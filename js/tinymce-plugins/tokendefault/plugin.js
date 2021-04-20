@@ -46,7 +46,7 @@ tinymce.PluginManager.add('tokendefault', function(editor, pluginUrl) {
           text: 'Cancel',
           icon: 'fa-times',
           click: function() {
-            $(this).dialog('close');
+            CRM.$(this).dialog('close');
           }
         },
         {
@@ -65,7 +65,7 @@ tinymce.PluginManager.add('tokendefault', function(editor, pluginUrl) {
             }
             // Apply the altered content to the activetinymce instance.
             tinymce.activeEditor.execCommand('mceSetContent', false, data);
-            $(this).dialog('close');
+            CRM.$(this).dialog('close');
           }
         }
       ]

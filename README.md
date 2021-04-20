@@ -3,7 +3,7 @@
 ![Screenshot](/images/screenshot1.png)
 ![Mosaico Screenshot](/images/screenshot2.png)
 
-This extension can replace the token values in the mailing with your own custom values if it is set in the extension page.
+Provides a means of defining default values for tokens which would otherwise display empty.
 
 The extension is licensed under [GPL-3.0](LICENSE.txt).
 

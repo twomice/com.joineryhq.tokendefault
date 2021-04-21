@@ -1,7 +1,6 @@
 # Token Default
 
-![Screenshot](/images/screenshot1.png)
-![Mosaico Screenshot](/images/screenshot2.png)
+![Screenshot](/images/screenshot.png)
 
 Provides a means of defining default values for tokens which would otherwise display empty.
 

@@ -1,6 +1,5 @@
-CRM.$(function($) {
-  /*jshint multistr: true */
-  $('div.crm-html_email-accordion div.crm-token-selector').before('\n\
+(function($) {
+  $('details.crm-html_email-accordion input.crm-token-selector').before('\n\
     <div id="tokendefaultSelector" title="Token Default Set" style="display:none">\n\
       <select name="tokendefault-set" style="margin: 2em; min-width: 20em;" /></select>\n\
     </div>\n\
@@ -42,4 +41,4 @@ CRM.$(function($) {
   $('#tokendefaultSelectorOpen').click(function() {
     $('#tokendefaultSelector').dialog('open');
   });
-});
+})(CRM.$ || cj);
